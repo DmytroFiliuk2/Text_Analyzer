@@ -3,7 +3,7 @@ language: php
 
 install:
   - composer install
-  - composer dump-autolaod
+  - composer dump-autoload
 
 php:
   - 7.4
