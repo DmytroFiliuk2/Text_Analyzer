@@ -1,0 +1,14 @@
+{
+  "version": "0.1",
+  "require": {
+    "ext-mbstring": "*",
+    "ext-json": "*",
+    "phpunit/phpunit": "8.1",
+    "ext-iconv": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "./"
+    }
+  }
+}

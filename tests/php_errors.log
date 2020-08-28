@@ -1,0 +1,2 @@
+[24-Jul-2020 09:04:44 UTC] PHP Warning:  Failed loading Zend extension 'xdebug' (tried: ext\xdebug (The specified module could not be found.), ext\php_xdebug.dll (The specified procedure could not be found.)) in Unknown on line 0
+[24-Jul-2020 09:04:44 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library 'amqp' (tried: ext\amqp (The specified module could not be found.), ext\php_amqp.dll (The specified procedure could not be found.)) in Unknown on line 0
