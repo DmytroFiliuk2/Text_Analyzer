@@ -3,9 +3,35 @@
 namespace src;
 
 use DateTime;
+use src\Exporters\Strategy\ExportStrategyFactory;
+use src\Exporters\Strategy\ExportStrategyInterface;
 
 class TextAnalyser
 {
+    /**
+     * @var ExportStrategyInterface[]
+     */
+    private array $exportStrategies;
+
+    /**
+     * @var string
+     */
+    private string $text;
+
+    /**
+     * @var ExportStrategyFactory
+     */
+    private ExportStrategyFactory $exportStrategyFactory;
+
+    /**
+     * TextAnalyser constructor.
+     * @param ExportStrategyFactory $exportStrategyFactory
+     */
+    public function __construct(ExportStrategyFactory $exportStrategyFactory)
+    {
+        $this->exportStrategyFactory = $exportStrategyFactory;
+    }
+
     /**
      * @const
      */
@@ -40,6 +66,14 @@ class TextAnalyser
             'The reversed text' => $this->mbStrRev($text),
             'The reversed words text' => $this->mbStrRevWords($text)
         );
+    }
+
+    /**
+     * @return \SplFileObject
+     */
+    public function exportStats(): \SplFileObject
+    {
+        return $this->getExportStrategy()->export($this->analise($this->text));
     }
 
     /**
@@ -271,5 +305,20 @@ class TextAnalyser
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $fileFormat
+     *
+     * @return ExportStrategyInterface
+     */
+    private function getExportStrategy(string $fileFormat): ExportStrategyInterface
+    {
+        if (!array_key_exists($fileFormat, $this->exportStrategies)) {
+            $strategy = $this->exportStrategyFactory->getStrategy($fileFormat);
+            $this->exportStrategies[$strategy::getSupportedFileFormat()] = $strategy;
+        }
+
+        return $this->exportStrategies[$fileFormat];
     }
 }
