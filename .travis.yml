@@ -1,0 +1,11 @@
+
+language: php
+
+before_install:
+  - composer install --no-interaction --no-suggest
+
+php:
+  - 7.4
+
+script:
+   - vendor/bin/phpunit --bootstrap vendor/autoload.php tests

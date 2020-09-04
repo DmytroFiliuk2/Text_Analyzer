@@ -79,8 +79,7 @@ class TextAnalyser
         $wordsArray = $this->getWords($text);
         $count = count($wordsArray);
         $totalLen = array_reduce($wordsArray, static function ($carry, $item) {
-            $carry += mb_strlen($item);
-            return $carry;
+            return $carry + mb_strlen($item);
         });
         $avgLen = $totalLen / $count;
 
