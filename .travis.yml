@@ -1,12 +1,11 @@
 
 language: php
 
-install:
-  - composer install
-  - composer dump-autoload
+before_install:
+  - composer install --no-interaction --no-suggest
 
 php:
   - 7.4
 
 script:
-  - phpunit
+   - vendor/bin/phpunit --bootstrap vendor/autoload.php tests
