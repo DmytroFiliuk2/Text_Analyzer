@@ -3,34 +3,12 @@
 namespace src;
 
 use DateTime;
-use src\Exporters\Strategy\ExportStrategyFactory;
+use src\Exporters\Entities\FileDataEntity;
+use src\Exporters\Entities\ReportEntity;
 use src\Exporters\Strategy\ExportStrategyInterface;
 
 class TextAnalyser
 {
-    /**
-     * @var ExportStrategyInterface[]
-     */
-    private array $exportStrategies;
-
-    /**
-     * @var string
-     */
-    private string $text;
-
-    /**
-     * @var ExportStrategyFactory
-     */
-    private ExportStrategyFactory $exportStrategyFactory;
-
-    /**
-     * TextAnalyser constructor.
-     * @param ExportStrategyFactory $exportStrategyFactory
-     */
-    public function __construct(ExportStrategyFactory $exportStrategyFactory)
-    {
-        $this->exportStrategyFactory = $exportStrategyFactory;
-    }
 
     /**
      * @const
@@ -38,42 +16,34 @@ class TextAnalyser
     public const  WORD_PATTERN = '[\s, ]+';
 
     /**
-     * @param string $text
+     * @param FileDataEntity $data
      *
-     * @return array
+     * @return ReportEntity
      */
-    public function analise(string $text): array
+    public function analise(FileDataEntity $data): ReportEntity
     {
         mb_regex_encoding('UTF-8');
-        $date = new DateTime('now');
-        $text = preg_replace('/[\r\n]+/', ' ', $text);
+        $text = preg_replace('/[\r\n]+/', ' ', $data->getText());
         $loverText = $this->stripPunctuation($text);
+        $reportEntity = new ReportEntity();
+        $reportEntity
+            ->setCharsCount(mb_strlen($text))
+            ->setWordsCount(str_word_count($loverText, 0))
+            ->setSentencesCount(preg_match_all('([^.!?]+[.?!]*)', $text))
+            ->setCharsFrequency($this->getCharactersFrequency($text))
+            ->setCharsDistributionPercentages($this->getCharactersDistribution($text))
+            ->setAverageWordLength($this->getAvgWordLen($loverText))
+            ->setNumberOfWordsPercentages($this->wordsCountInSentence($text))
+            ->setMostUsedWords($this->topUsedWords($loverText, 10))
+            ->setMostLongestWords($this->topLongestWords($loverText, 10))
+            ->setMostShortestWords($this->topShortestWords($loverText, 10))
+            ->setPalindromeCount($this->getPalindromeCount($loverText))
+            ->setMostLongestPalindromes($this->getLongestPalindrome($loverText))
+            ->setDate(new DateTime('now'))
+            ->setReversedText($this->mbStrRev($text))
+            ->setReversedWords($this->mbStrRevWords($text));
 
-        return array(
-            'Number of characters' => mb_strlen($text),
-            'Number of words' => str_word_count($loverText, 0),
-            'Number of sentences' => preg_match_all('([^.!?]+[.?!]*)', $text),
-            'Frequency of characters' => $this->getCharactersFrequency($text),
-            'Distribution of characters as a percentage of total' => $this->getCharactersDistribution($text),
-            'Average word length' => $this->getAvgWordLen($loverText),
-            'The average number of words in a sentence' => $this->wordsCountInSentence($text),
-            'Top 10 most used words' => $this->topUsedWords($loverText, 10),
-            'Top 10 longest words' => $this->topLongestWords($loverText, 10),
-            'Top 10 shortest words' => $this->topShortestWords($loverText, 10),
-            'Number of palindrome words' => $this->getPalindromeCount($loverText),
-            'Top 10 longest palindrome words' => $this->getLongestPalindrome($loverText),
-            'date' => $date->format('Y-m-d-h-m'),
-            'The reversed text' => $this->mbStrRev($text),
-            'The reversed words text' => $this->mbStrRevWords($text)
-        );
-    }
-
-    /**
-     * @return \SplFileObject
-     */
-    public function exportStats(): \SplFileObject
-    {
-        return $this->getExportStrategy()->export($this->analise($this->text));
+        return $reportEntity;
     }
 
     /**
@@ -305,20 +275,5 @@ class TextAnalyser
         }
 
         return $result;
-    }
-
-    /**
-     * @param string $fileFormat
-     *
-     * @return ExportStrategyInterface
-     */
-    private function getExportStrategy(string $fileFormat): ExportStrategyInterface
-    {
-        if (!array_key_exists($fileFormat, $this->exportStrategies)) {
-            $strategy = $this->exportStrategyFactory->getStrategy($fileFormat);
-            $this->exportStrategies[$strategy::getSupportedFileFormat()] = $strategy;
-        }
-
-        return $this->exportStrategies[$fileFormat];
     }
 }
