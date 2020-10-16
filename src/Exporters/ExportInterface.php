@@ -2,15 +2,14 @@
 
 namespace src\Exporters;
 
-use SplFileObject;
-use src\Exporters\Entities\FileDataEntity;
+use src\Entities\FileData;
 
 interface ExportInterface
 {
     /**
      * @param array $dataToExport
      *
-     * @return FileDataEntity
+     * @return FileData
      */
-    public function export(array $dataToExport): FileDataEntity;
+    public function export(array $dataToExport): FileData;
 }

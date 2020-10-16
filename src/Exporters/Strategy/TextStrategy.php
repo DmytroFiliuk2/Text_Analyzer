@@ -2,19 +2,19 @@
 
 namespace src\Exporters\Strategy;
 
-use src\Exporters\Entities\FileDataEntity;
+use src\Entities\FileData;
 
 class TextStrategy implements ExportStrategyInterface
 {
     /**
      * @param array $dataToExport
-     * @return FileDataEntity
+     * @return FileData
      */
-    public function export(array $dataToExport): FileDataEntity
+    public function export(array $dataToExport): FileData
     {
         $filName = $dataToExport['name'];
         $text = file_get_contents($dataToExport['tmp_name'], 'rb');
-        return new FileDataEntity($filName, $text);
+        return new FileData($filName, $text);
     }
 
     /**

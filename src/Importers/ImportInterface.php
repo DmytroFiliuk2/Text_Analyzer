@@ -3,13 +3,13 @@
 
 namespace src\Importers;
 
-use src\Exporters\Entities\ReportEntity;
+use src\Entities\Report;
 
 interface ImportInterface
 {
     /**
-     * @param ReportEntity $reportData
+     * @param Report $reportData
      * @return \SplFileObject
      */
-    public function import(ReportEntity $reportData): \SplFileObject;
+    public function import(Report $reportData);
 }

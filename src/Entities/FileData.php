@@ -2,7 +2,9 @@
 
 namespace src\Entities;
 
-class FileDataEntity
+use WO\PaymentsBundle\Model\AddressesPeer;
+
+class FileData
 {
     /**
      * @var string
@@ -40,4 +42,6 @@ class FileDataEntity
     {
         return $this->text;
     }
+
+
 }

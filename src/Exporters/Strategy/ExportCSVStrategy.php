@@ -3,20 +3,20 @@
 namespace src\Exporters\Strategy;
 
 use SplFileObject;
-use src\Exporters\Entities\FileDataEntity;
+use src\Entities\FileData;
 
 class ExportCSVStrategy implements ExportStrategyInterface
 {
     /**
      * @param SplFileObject $fileObject
-     * @return FileDataEntity
+     * @return FileData
      */
-    public function export(array $fileObject): FileDataEntity
+    public function export(array $fileObject): FileData
     {
 
-        $fileDataEntity = new FileDataEntity();
+        $FileData = new FileData();
 
-        return $fileDataEntity;
+        return $FileData;
     }
 
     /**

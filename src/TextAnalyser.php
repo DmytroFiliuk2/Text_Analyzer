@@ -3,8 +3,8 @@
 namespace src;
 
 use DateTime;
-use src\Exporters\Entities\FileDataEntity;
-use src\Exporters\Entities\ReportEntity;
+use src\Entities\FileData;
+use src\Entities\Report;
 
 class TextAnalyser
 {
@@ -14,18 +14,18 @@ class TextAnalyser
     public const  WORD_PATTERN = '[\s, ]+';
 
     /**
-     * @param FileDataEntity $data
+     * @param FileData $data
      *
-     * @return ReportEntity
+     * @return Report
      */
-    public function analise(FileDataEntity $data): ReportEntity
+    public function analise(FileData $data): Report
     {
         mb_regex_encoding('UTF-8');
         $text = preg_replace('/[\r\n]+/', ' ', $data->getText());
         $loverText = $this->stripPunctuation($text);
-        $reportEntity = new ReportEntity();
+        $Report = new Report();
 
-        $reportEntity
+        $Report
             ->setCharsCount(mb_strlen($text))
             ->setWordsCount(str_word_count($loverText, 0))
             ->setSentencesCount(preg_match_all('([^.!?]+[.?!]*)', $text))
@@ -42,7 +42,7 @@ class TextAnalyser
             ->setReversedText($this->mbStrRev($text))
             ->setReversedWords($this->mbStrRevWords($text));
 
-        return $reportEntity;
+        return $Report;
     }
 
     /**
