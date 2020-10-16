@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @final
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="src\Repository\ReportRepository")
  * @ORM\Table(name="reports")
  */
 class Report
@@ -36,19 +36,70 @@ class Report
     private int $sentencesCount;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="array")
      */
     private array $getCharactersFrequency;
+
+    /**
+     * @ORM\Column(type="array")
+     */
     private array $charactersDistribution;
+
+    /**
+     * @ORM\Column(type="text")
+     */
     private string $avgWordLen;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
     private int $wordsCountInSentence;
-    private array $topUsedWords;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private array $longestWords;
+
+    /**
+     * @ORM\Column(type="array")
+     */
     private array $topShortestWords;
-    private int $palindromeCount;
+
+    /**
+     * @ORM\Column(type="array")
+     */
     private array $longestPalindromes;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $palindromeCount;
+
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private string $reversedText;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private string $reversedWords;
+
+    /**
+     * @ORM\Column(type="date")
+     */
     private DateTime $dateTime;
-    private string $mbStrRev;
-    private string $mbStrRevWords;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $fileName;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private array $mostUsedWords;
 
     /**
      * @param int $charsCount
@@ -140,7 +191,7 @@ class Report
      */
     public function setMostUsedWords(array $topUsedWords) : Report
     {
-        $this->topUsedWords = $topUsedWords;
+        $this->mostUsedWords = $topUsedWords;
 
         return $this;
     }
@@ -152,7 +203,7 @@ class Report
      */
     public function setMostLongestWords(array $topLongestWords) : Report
     {
-        $this->topUsedWords = $topLongestWords;
+        $this->longestWords = $topLongestWords;
 
         return $this;
     }
@@ -206,26 +257,193 @@ class Report
     }
 
     /**
-     * @param string $mbStrRev
-     *
+     * @param string $reversedText
      * @return $this
      */
-    public function setReversedText(string $mbStrRev) : Report
+    public function setReversedText(string $reversedText) : Report
     {
-        $this->mbStrRev = $mbStrRev;
+        $this->reversedText = $reversedText;
 
         return $this;
     }
 
     /**
-     * @param string $mbStrRevWords
+     * @param string $reversedWords
      *
      * @return $this
      */
-    public function setReversedWords(string $mbStrRevWords) : Report
+    public function setReversedWords(string $reversedWords) : Report
     {
-        $this->mbStrRevWords = $mbStrRevWords;
+        $this->reversedWords = $reversedWords;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvgWordLen(): string
+    {
+        return $this->avgWordLen;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCharactersDistribution(): array
+    {
+        return $this->charactersDistribution;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCharsCount(): int
+    {
+        return $this->charsCount;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateTime(): DateTime
+    {
+        return $this->dateTime;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGetCharactersFrequency(): array
+    {
+        return $this->getCharactersFrequency;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLongestPalindromes(): array
+    {
+        return $this->longestPalindromes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReversedText(): string
+    {
+        return $this->reversedText;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPalindromeCount(): int
+    {
+        return $this->palindromeCount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReversedWords(): string
+    {
+        return $this->reversedWords;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSentencesCount(): int
+    {
+        return $this->sentencesCount;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTopShortestWords(): array
+    {
+        return $this->topShortestWords;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLongestWords(): array
+    {
+        return $this->longestWords;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWordsInSentenceCount(): int
+    {
+        return $this->wordsCountInSentence;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWordsCount(): int
+    {
+        return $this->wordsCount;
+    }
+
+    /**
+     * @param string $avgWordLen
+     */
+    public function setAvgWordLen(string $avgWordLen): void
+    {
+        $this->avgWordLen = $avgWordLen;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName():string
+    {
+       return $this->fileName;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMostUsedWords(): array
+    {
+        return $this->mostUsedWords;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return  array(
+            'Number of characters' => $this->getWordsCount(),
+            'Number of words' => $this->getWordsCount(),
+            'Frequency of characters' => $this->getGetCharactersFrequency(),
+            'Number of sentences' => $this->getSentencesCount(),
+            'Distribution of characters as a percentage of total' => $this->getCharactersDistribution(),
+            'Average word length' => $this->getAvgWordLen(),
+            'The average number of words in a sentence' => $this->getWordsInSentenceCount(),
+            'Top 10 most used words' => $this->getMostUsedWords(),
+            'Top 10 longest words' => $this->getLongestWords(),
+            'Top 10 shortest words' => $this->getTopShortestWords(),
+            'Number of palindrome words' => $this->getPalindromeCount(),
+            'Top 10 longest palindrome words' => $this->getLongestPalindromes(),
+            'date' => $this->getDateTime()->format('Y-m-d-h-m'),
+            'The reversed text' => $this->getReversedText(),
+            'The reversed words text' => $this->getReversedWords()
+        );
     }
 }
