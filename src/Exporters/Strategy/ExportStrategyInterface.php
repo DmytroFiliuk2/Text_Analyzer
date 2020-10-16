@@ -2,6 +2,7 @@
 
 namespace src\Exporters\Strategy;
 
+use src\Exporters\Entities\FileDataEntity;
 use src\Exporters\ExportInterface;
 
 interface ExportStrategyInterface extends ExportInterface

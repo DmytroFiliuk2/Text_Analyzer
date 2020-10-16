@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Exporters\Entities;
+namespace src\Entities;
 
 class FileDataEntity
 {

@@ -1,17 +1,43 @@
 <?php
 
-namespace src\Exporters\Entities;
+namespace src\Entities;
 
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @final
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="reports")
  */
-class ReportEntity
+class Report
 {
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
+    protected int $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
     private int $charsCount;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
     private int $wordsCount;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
     private int $sentencesCount;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
     private array $getCharactersFrequency;
     private array $charactersDistribution;
     private string $avgWordLen;
@@ -24,13 +50,12 @@ class ReportEntity
     private string $mbStrRev;
     private string $mbStrRevWords;
 
-
     /**
      * @param int $charsCount
      *
      * @return $this
      */
-    public function setCharsCount(int $charsCount) : ReportEntity
+    public function setCharsCount(int $charsCount) : Report
     {
         $this->charsCount = $charsCount;
 
@@ -42,7 +67,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setWordsCount(int $wordsCount) : ReportEntity
+    public function setWordsCount(int $wordsCount) : Report
     {
         $this->wordsCount = $wordsCount;
 
@@ -54,7 +79,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setSentencesCount(int $sentencesCount) : ReportEntity
+    public function setSentencesCount(int $sentencesCount) : Report
     {
         $this->sentencesCount = $sentencesCount;
 
@@ -66,7 +91,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setCharsFrequency(array $charactersFrequency) : ReportEntity
+    public function setCharsFrequency(array $charactersFrequency) : Report
     {
         $this->getCharactersFrequency = $charactersFrequency;
 
@@ -78,7 +103,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setCharsDistributionPercentages(array $charactersDistribution) : ReportEntity
+    public function setCharsDistributionPercentages(array $charactersDistribution) : Report
     {
         $this->charactersDistribution = $charactersDistribution;
 
@@ -89,7 +114,7 @@ class ReportEntity
      * @param string $avgWordLen
      * @return $this
      */
-    public function setAverageWordLength(string $avgWordLen) : ReportEntity
+    public function setAverageWordLength(string $avgWordLen) : Report
     {
         $this->avgWordLen = $avgWordLen;
 
@@ -101,7 +126,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setNumberOfWordsPercentages(int $wordsCountInSentence) : ReportEntity
+    public function setNumberOfWordsPercentages(int $wordsCountInSentence) : Report
     {
         $this->wordsCountInSentence = $wordsCountInSentence;
 
@@ -113,7 +138,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setMostUsedWords(array $topUsedWords) : ReportEntity
+    public function setMostUsedWords(array $topUsedWords) : Report
     {
         $this->topUsedWords = $topUsedWords;
 
@@ -125,7 +150,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setMostLongestWords(array $topLongestWords) : ReportEntity
+    public function setMostLongestWords(array $topLongestWords) : Report
     {
         $this->topUsedWords = $topLongestWords;
 
@@ -137,7 +162,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setMostShortestWords(array $topShortestWords) : ReportEntity
+    public function setMostShortestWords(array $topShortestWords) : Report
     {
         $this->topShortestWords = $topShortestWords;
 
@@ -149,7 +174,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setPalindromeCount(int $palindromeCount) : ReportEntity
+    public function setPalindromeCount(int $palindromeCount) : Report
     {
         $this->palindromeCount = $palindromeCount;
 
@@ -161,7 +186,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setMostLongestPalindromes(array $longestPalindromes) : ReportEntity
+    public function setMostLongestPalindromes(array $longestPalindromes) : Report
     {
         $this->longestPalindromes = $longestPalindromes;
 
@@ -171,9 +196,9 @@ class ReportEntity
     /**
      * @param DateTime $dateTime
      *
-     * @return ReportEntity
+     * @return Report
      */
-    public function setDate(DateTime $dateTime) : ReportEntity
+    public function setDate(DateTime $dateTime) : Report
     {
         $this->dateTime = $dateTime;
 
@@ -185,7 +210,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setReversedText(string $mbStrRev) : ReportEntity
+    public function setReversedText(string $mbStrRev) : Report
     {
         $this->mbStrRev = $mbStrRev;
 
@@ -197,7 +222,7 @@ class ReportEntity
      *
      * @return $this
      */
-    public function setReversedWords(string $mbStrRevWords) : ReportEntity
+    public function setReversedWords(string $mbStrRevWords) : Report
     {
         $this->mbStrRevWords = $mbStrRevWords;
 

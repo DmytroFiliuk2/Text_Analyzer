@@ -1,10 +1,13 @@
 <?php
 
-namespace src\Exporters\Strategy;
+namespace src\Exporters\Strategy\Factory;
 
 use src\Exporters\Exceptions\FileFormatNotSupportedException;
+use src\Exporters\Strategy\ExportCSVStrategy;
+use src\Exporters\Strategy\ExportStrategyInterface;
+use src\Exporters\Strategy\TextStrategy;
 
-class ExportStrategyFactory
+class ExportStrategyFactory implements ExportStrategyFactoryInterface
 {
     /**
      * @param string $fileFormat
@@ -18,6 +21,9 @@ class ExportStrategyFactory
         switch ($fileFormat) {
             case ExportCSVStrategy::getSupportedFileFormat():
                 $strategy = new ExportCSVStrategy();
+                break;
+            case TextStrategy::getSupportedFileFormat():
+                $strategy = new TextStrategy();
                 break;
             default:
                 throw new FileFormatNotSupportedException($fileFormat);

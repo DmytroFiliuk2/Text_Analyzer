@@ -5,11 +5,9 @@ namespace src;
 use DateTime;
 use src\Exporters\Entities\FileDataEntity;
 use src\Exporters\Entities\ReportEntity;
-use src\Exporters\Strategy\ExportStrategyInterface;
 
 class TextAnalyser
 {
-
     /**
      * @const
      */
@@ -26,6 +24,7 @@ class TextAnalyser
         $text = preg_replace('/[\r\n]+/', ' ', $data->getText());
         $loverText = $this->stripPunctuation($text);
         $reportEntity = new ReportEntity();
+
         $reportEntity
             ->setCharsCount(mb_strlen($text))
             ->setWordsCount(str_word_count($loverText, 0))

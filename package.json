@@ -1,0 +1,29 @@
+{
+  "name": "text_analyzer",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "watch": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmytroFiliuk2/Text_Analyzer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmytroFiliuk2/Text_Analyzer/issues"
+  },
+  "homepage": "https://github.com/DmytroFiliuk2/Text_Analyzer#readme",
+  "dependencies": {
+    "filepond": "^4.21.1",
+    "npm-watch": "^0.7.0",
+    "webpack": "^5.1.2"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.0.0"
+  }
+}
